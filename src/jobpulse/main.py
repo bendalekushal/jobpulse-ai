@@ -1,15 +1,23 @@
 """
 Application entry point.
 """
+import logging
 
+from jobpulse.logger import configure_logging
 from jobpulse.config import (
     APP_NAME,
     ENVIRONMENT,
     API_TIMEOUT,
 )
 
+configure_logging()
+
+logger = logging.getLogger(__name__)
 
 def main():
+
+    logger.info("Application Started")
+    
     print("=" * 50)
     print(f"Application : {APP_NAME}")
     print(f"Environment : {ENVIRONMENT}")
@@ -19,3 +27,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
