@@ -9,8 +9,10 @@ class HTTPClient:
     """
 
 
-    def __init__(self):
+    def __init__(self, connect_timeout, read_timeout):
         self.session = requests.Session()
+        self.connect_timeout = connect_timeout
+        self.read_timeout = read_timeout
         self._configure_session()
 
     def _configure_session(self):
@@ -22,7 +24,7 @@ class HTTPClient:
             total=3,
             backoff_factor=1,
             status_forcelist=[429, 500, 502, 503, 504],
-            allowed_methods=["GET", "POST"]
+            allowed_methods=["GET"]
         )
 
         adapter = HTTPAdapter(
@@ -40,4 +42,14 @@ class HTTPClient:
         self.session.mount(
             "http://",
             adapter
+        )
+
+    def get(self, url, params=None):
+        return self.session.get(
+            url,
+            params=params,
+            timeout=(
+                self.connect_timeout,
+                self.read_timeout,
+            ),
         )
