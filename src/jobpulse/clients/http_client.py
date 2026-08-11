@@ -1,6 +1,10 @@
+from urllib import response
+import logging
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
+
+logger = logging.getLogger(__name__)
 
 class HTTPClient:
     """
@@ -45,11 +49,39 @@ class HTTPClient:
         )
 
     def get(self, url, params=None):
-        return self.session.get(
-            url,
-            params=params,
-            timeout=(
-                self.connect_timeout,
-                self.read_timeout,
-            ),
-        )
+        try:
+            response = self.session.get(
+                url,
+                params=params,
+                timeout=(
+                    self.connect_timeout,
+                    self.read_timeout,
+                ),
+            )
+            response.raise_for_status()
+
+            return response
+
+        except requests.exceptions.ReadTimeout:
+            logger.error(
+                "Read timeout while calling %s",
+                url,
+                exc_info=True,
+            )
+            raise
+
+        except requests.exceptions.ConnectionError:
+            logger.error(
+                "Connection error while calling %s",
+                url,
+                exc_info=True,
+            )
+            raise
+
+        except requests.exceptions.HTTPError:
+            logger.error(
+                "HTTP error while calling %s",
+                url,
+                exc_info=True,
+            )
+            raise
