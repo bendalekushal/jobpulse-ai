@@ -26,6 +26,9 @@ class HTTPClient:
         """
         retry_strategy = Retry(
             total=3,
+            connect=3,
+            read=0,
+            status=3,
             backoff_factor=1,
             status_forcelist=[429, 500, 502, 503, 504],
             allowed_methods=["GET"]
@@ -61,6 +64,14 @@ class HTTPClient:
             response.raise_for_status()
 
             return response
+
+        except requests.exceptions.ConnectTimeout:
+            logger.error(
+                "Connection timeout while calling %s",
+                url,
+                exc_info=True,
+            )
+            raise
 
         except requests.exceptions.ReadTimeout:
             logger.error(

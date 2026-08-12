@@ -34,12 +34,12 @@ def main():
 
     # Temporary HTTPClient integration test
     response = http_client.get(
-        "https://httpbin.io/get",
-        params={
-            "location": "Pune",
-            "page": 1,
-            "limit": 10,
-        },
+        "http://localhost:8000",
+        # params={
+        #     "location": "Pune",
+        #     "page": 1,
+        #     "limit": 10,
+        # },
     )
 
     logger.info(
