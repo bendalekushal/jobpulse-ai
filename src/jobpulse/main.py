@@ -3,6 +3,7 @@ Application entry point.
 """
 import logging
 # from urllib import response
+# from jobpulse.clients import http_client
 from jobpulse.clients.http_client import HTTPClient
 from jobpulse.clients.job_api_client import JobAPIClient
 from jobpulse.logger import configure_logging
@@ -33,13 +34,46 @@ def main():
     )
 
     # Temporary HTTPClient integration test
-    response = http_client.get(
-        "http://localhost:8000",
-        # params={
-        #     "location": "Pune",
-        #     "page": 1,
-        #     "limit": 10,
-        # },
+    # response = http_client.get(
+    #     "http://httpbin.io/get",
+    #     params={
+    #         "location": "Pune",
+    #         "page": 1,
+    #         "limit": 10,
+    #     },
+    #     headers={
+    #         "X-Request-ID": "jobpulse-123",
+    #     },
+    # )
+
+    # logger.info(
+    #     "Response status: %s",
+    #     response.status_code,
+    # )
+
+    # response_body = response.json()
+
+    # logger.info(
+    #     "Response body: %s",
+    #     response.json(),
+    # )
+
+    # logger.info(
+    #     "Response headers seen by server: %s",
+    #     response.json()["headers"],
+    # )
+    
+    # Temporary HTTPClient POST integration test
+
+    payload = {
+        "title": "Data Engineer",
+        "location": "Pune",
+        "experience": 3,
+    }
+
+    response = http_client.post(
+        "https://httpbin.io/post",
+        json=payload,
     )
 
     logger.info(
@@ -47,9 +81,16 @@ def main():
         response.status_code,
     )
 
+    response_body = response.json()
+
     logger.info(
         "Response body: %s",
-        response.json(),
+        response_body,
+    )
+
+    logger.info(
+        "JSON body received by server: %s",
+        response_body["json"],
     )
 
 

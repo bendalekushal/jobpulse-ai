@@ -1,4 +1,3 @@
-from urllib import response
 import logging
 import requests
 from requests.adapters import HTTPAdapter
@@ -18,6 +17,11 @@ class HTTPClient:
         self.connect_timeout = connect_timeout
         self.read_timeout = read_timeout
         self._configure_session()
+
+        self.default_headers = {
+            "Accept": "application/json",
+            "User-Agent": "JobPulse/1.0",
+        }
 
     def _configure_session(self):
         """
@@ -47,20 +51,83 @@ class HTTPClient:
         )
 
         self.session.mount(
-            "http://",
-            adapter
+                "http://",
+                adapter
         )
 
-    def get(self, url, params=None):
+    def get(self, url, params=None, headers=None):
         try:
+
+            request_headers = self.default_headers.copy()
+            if headers:
+                request_headers.update(headers)
+
             response = self.session.get(
                 url,
                 params=params,
+                headers=request_headers,
                 timeout=(
                     self.connect_timeout,
                     self.read_timeout,
                 ),
             )
+
+
+            response.raise_for_status()
+
+            return response
+
+        except requests.exceptions.ConnectTimeout:
+            logger.error(
+                "Connection timeout while calling %s",
+                url,
+                exc_info=True,
+            )
+            raise
+
+        except requests.exceptions.ReadTimeout:
+            logger.error(
+                "Read timeout while calling %s",
+                url,
+                exc_info=True,
+            )
+            raise
+
+        except requests.exceptions.ConnectionError:
+            logger.error(
+                "Connection error while calling %s",
+                url,
+                exc_info=True,
+            )
+            raise
+
+        except requests.exceptions.HTTPError:
+            logger.error(
+                "HTTP error while calling %s",
+                url,
+                exc_info=True,
+            )
+            raise
+
+    def post(self, url, params=None, json=None, headers=None):
+        try:
+
+            request_headers = self.default_headers.copy()
+
+            if headers:
+                request_headers.update(headers)
+
+            response = self.session.post(
+                url,
+                params=params,
+                json=json,
+                headers=request_headers,
+                timeout=(
+                    self.connect_timeout,
+                    self.read_timeout,
+                ),
+            )
+
             response.raise_for_status()
 
             return response
