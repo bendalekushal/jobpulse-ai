@@ -1,1 +1,1 @@
-2026-08-13 08:45:17,052 | INFO     | __main__ | Line:91 | JSON body received by server: {'experience': 3, 'location': 'Pune', 'title': 'Data Engineer'}
+2026-08-14 08:06:58,565 | INFO     | __main__ | Line:97 | Headers received by server: {'Accept': ['application/json'], 'Accept-Encoding': ['gzip, deflate'], 'Connection': ['keep-alive'], 'Content-Length': ['63'], 'Content-Type': ['application/json'], 'Host': ['httpbin.io'], 'Idempotency-Key': ['9edc36ee-2e4a-4d59-a533-a7a414f1237f'], 'User-Agent': ['JobPulse/1.0']}

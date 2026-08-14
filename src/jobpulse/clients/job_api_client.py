@@ -1,3 +1,5 @@
+import uuid
+
 class JobAPIClient:
 
     def __init__(self, http_client, base_url):
@@ -16,4 +18,18 @@ class JobAPIClient:
         return self.http_client.get(
             endpoint,
             params=params,
+        )
+
+    def create_job(self, payload, idempotency_key=None):
+        # endpoint = f"{self.base_url}/v1/jobs"
+        endpoint = f"{self.base_url}/post"
+        if idempotency_key is None:
+            idempotency_key = str(uuid.uuid4())
+
+        return self.http_client.post(
+            endpoint,
+            json=payload,
+            headers={
+                "Idempotency-Key": idempotency_key,
+            },
         )

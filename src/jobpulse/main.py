@@ -30,7 +30,7 @@ def main():
 
     job_client = JobAPIClient(
         http_client=http_client,
-        base_url=JOB_API_BASE_URL,
+        base_url="https://httpbin.io",
     )
 
     # Temporary HTTPClient integration test
@@ -71,9 +71,11 @@ def main():
         "experience": 3,
     }
 
-    response = http_client.post(
-        "https://httpbin.io/post",
-        json=payload,
+    # response = http_client.post(
+    #     "https://httpbin.io/post",
+    #     json=payload,
+    response = job_client.create_job(
+        payload=payload
     )
 
     logger.info(
@@ -88,9 +90,13 @@ def main():
         response_body,
     )
 
+    # logger.info(
+    #     "JSON body received by server: %s",
+    #     response_body["json"],
+
     logger.info(
-        "JSON body received by server: %s",
-        response_body["json"],
+        "Headers received by server: %s",
+        response_body["headers"]
     )
 
 
