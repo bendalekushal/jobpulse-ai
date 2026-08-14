@@ -13,6 +13,7 @@ from jobpulse.config import (
     CONNECT_TIMEOUT,
     READ_TIMEOUT,
     JOB_API_BASE_URL,
+    JOB_API_KEY
 )
 
 configure_logging()
@@ -26,6 +27,7 @@ def main():
     http_client = HTTPClient(
         connect_timeout=CONNECT_TIMEOUT,
         read_timeout=READ_TIMEOUT,
+        api_key=JOB_API_KEY
     )
 
     job_client = JobAPIClient(
@@ -86,18 +88,30 @@ def main():
     response_body = response.json()
 
     logger.info(
-        "Response body: %s",
-        response_body,
+        # "Response body: %s",
+        # response_body,
+        "Response received successfully",
     )
 
     # logger.info(
     #     "JSON body received by server: %s",
     #     response_body["json"],
 
-    logger.info(
-        "Headers received by server: %s",
-        response_body["headers"]
+    # logger.info(
+    #     "Headers received by server: %s",
+    #     response_body["headers"]
+    # )
+
+    api_key_received = any(
+        key.lower() == "x-api-key"
+        for key in response_body["headers"]
     )
+
+    logger.info(
+        "API key received by server: %s",
+        api_key_received,
+    )
+    
 
 
     print("=" * 50)

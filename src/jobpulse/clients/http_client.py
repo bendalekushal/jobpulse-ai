@@ -12,15 +12,17 @@ class HTTPClient:
     """
 
 
-    def __init__(self, connect_timeout, read_timeout):
+    def __init__(self, connect_timeout, read_timeout, api_key):
         self.session = requests.Session()
         self.connect_timeout = connect_timeout
         self.read_timeout = read_timeout
+        self.api_key = api_key
         self._configure_session()
 
         self.default_headers = {
             "Accept": "application/json",
             "User-Agent": "JobPulse/1.0",
+            "X-API-Key": self.api_key,
         }
 
     def _configure_session(self):
@@ -117,6 +119,10 @@ class HTTPClient:
 
             if headers:
                 request_headers.update(headers)
+            logger.info(
+                "Request header names: %s",
+                list(request_headers.keys()),
+            )
 
             response = self.session.post(
                 url,

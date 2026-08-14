@@ -22,6 +22,7 @@ def get_required_env(var_name: str) -> str:
 APP_NAME = get_required_env("APP_NAME")
 ENVIRONMENT = get_required_env("ENVIRONMENT")
 JOB_API_BASE_URL = get_required_env("JOB_API_BASE_URL")
+JOB_API_KEY = get_required_env("JOB_API_KEY")
 
 # Optional configuration
 API_TIMEOUT = int(os.getenv("API_TIMEOUT", "30"))
