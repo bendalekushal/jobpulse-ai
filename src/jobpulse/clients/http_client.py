@@ -5,6 +5,15 @@ from urllib3.util.retry import Retry
 
 logger = logging.getLogger(__name__)
 
+class AuthenticationError(Exception):
+    """Raised when API authentication fails."""
+    pass
+
+
+class AuthorizationError(Exception):
+    """Raised when the authenticated client is not allowed to perform an operation."""
+    pass
+
 class HTTPClient:
     """
     Reusable HTTP client for managing 
@@ -58,6 +67,18 @@ class HTTPClient:
                 adapter
         )
 
+    def _validate_response(self, response, url):
+        if response.status_code == 401:
+            raise AuthenticationError(
+                f"Authentication failed for {url}"
+            )
+        if response.status_code == 403:
+            raise AuthorizationError(
+                f"Authorization failed for {url}"
+            )
+
+        response.raise_for_status()
+
     def get(self, url, params=None, headers=None):
         try:
 
@@ -76,7 +97,7 @@ class HTTPClient:
             )
 
 
-            response.raise_for_status()
+            self._validate_response(response, url)
 
             return response
 
@@ -99,6 +120,22 @@ class HTTPClient:
         except requests.exceptions.ConnectionError:
             logger.error(
                 "Connection error while calling %s",
+                url,
+                exc_info=True,
+            )
+            raise
+
+        except AuthenticationError:
+            logger.error(
+                "Authentication error while calling %s",
+                url,
+                exc_info=True,
+            )
+            raise
+
+        except AuthorizationError:
+            logger.error(
+                "Authorization error while calling %s",
                 url,
                 exc_info=True,
             )
@@ -119,10 +156,10 @@ class HTTPClient:
 
             if headers:
                 request_headers.update(headers)
-            logger.info(
-                "Request header names: %s",
-                list(request_headers.keys()),
-            )
+            # logger.info(
+            #     "Request header names: %s",
+            #     list(request_headers.keys()),
+            # )
 
             response = self.session.post(
                 url,
@@ -135,7 +172,7 @@ class HTTPClient:
                 ),
             )
 
-            response.raise_for_status()
+            self._validate_response(response, url)
 
             return response
 
@@ -158,6 +195,22 @@ class HTTPClient:
         except requests.exceptions.ConnectionError:
             logger.error(
                 "Connection error while calling %s",
+                url,
+                exc_info=True,
+            )
+            raise
+
+        except AuthenticationError:
+            logger.error(
+                "Authentication error while calling %s",
+                url,
+                exc_info=True,
+            )
+            raise
+
+        except AuthorizationError:
+            logger.error(
+                "Authorization error while calling %s",
                 url,
                 exc_info=True,
             )

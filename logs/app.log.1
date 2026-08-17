@@ -1,4 +1,7 @@
-2026-08-14 09:08:36,044 | INFO     | __main__ | Line:110 | API key received by server: False
-2026-08-14 09:11:49,005 | INFO     | __main__ | Line:25 | Application Started
-2026-08-14 09:11:49,005 | INFO     | jobpulse.clients.http_client | Line:122 | Request header names: ['Accept', 'User-Agent', 'X-API-Key', 'Idempotency-Key']
-2026-08-14 09:12:01,725 | INFO     | __main__ | Line:83 | Response status: 200
+2026-08-17 07:45:05,341 | ERROR    | jobpulse.clients.http_client | Line:137 | Authorization error while calling https://httpbin.io/status/403
+Traceback (most recent call last):
+  File "C:\Users\toshi\DataEngineer-Bootcamp\Projects\jobpulse-ai\src\jobpulse\clients\http_client.py", line 100, in get
+    self._validate_response(response, url)
+  File "C:\Users\toshi\DataEngineer-Bootcamp\Projects\jobpulse-ai\src\jobpulse\clients\http_client.py", line 76, in _validate_response
+    raise AuthorizationError(
+jobpulse.clients.http_client.AuthorizationError: Authorization failed for https://httpbin.io/status/403

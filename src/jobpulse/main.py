@@ -30,10 +30,20 @@ def main():
         api_key=JOB_API_KEY
     )
 
-    job_client = JobAPIClient(
-        http_client=http_client,
-        base_url="https://httpbin.io",
-    )
+    # # Temporary 401 authentication test
+    # try:
+    #     http_client.get(
+    #         "https://httpbin.io/status/403"
+    #     )
+    # except AuthorizationError:
+    #     logger.info(
+    #        "403 test passed: authorization error handled correctly."
+    #     )
+
+    # job_client = JobAPIClient(
+    #     http_client=http_client,
+    #     base_url="https://httpbin.io",
+    # )
 
     # Temporary HTTPClient integration test
     # response = http_client.get(
@@ -67,31 +77,31 @@ def main():
     
     # Temporary HTTPClient POST integration test
 
-    payload = {
-        "title": "Data Engineer",
-        "location": "Pune",
-        "experience": 3,
-    }
+    # payload = {
+    #     "title": "Data Engineer",
+    #     "location": "Pune",
+    #     "experience": 3,
+    # }
 
     # response = http_client.post(
     #     "https://httpbin.io/post",
     #     json=payload,
-    response = job_client.create_job(
-        payload=payload
-    )
+    # response = job_client.create_job(
+    #     payload=payload
+    # )
 
-    logger.info(
-        "Response status: %s",
-        response.status_code,
-    )
+    # logger.info(
+    #     "Response status: %s",
+    #     response.status_code,
+    # )
 
-    response_body = response.json()
+    # response_body = response.json()
 
-    logger.info(
-        # "Response body: %s",
-        # response_body,
-        "Response received successfully",
-    )
+    # logger.info(
+    #     # "Response body: %s",
+    #     # response_body,
+    #     "Response received successfully",
+    # )
 
     # logger.info(
     #     "JSON body received by server: %s",
@@ -102,15 +112,15 @@ def main():
     #     response_body["headers"]
     # )
 
-    api_key_received = any(
-        key.lower() == "x-api-key"
-        for key in response_body["headers"]
-    )
+    # api_key_received = any(
+    #     key.lower() == "x-api-key"
+    #     for key in response_body["headers"]
+    # )
 
-    logger.info(
-        "API key received by server: %s",
-        api_key_received,
-    )
+    # logger.info(
+    #     "API key received by server: %s",
+    #     api_key_received,
+    # )
     
 
 

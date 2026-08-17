@@ -10,7 +10,7 @@ load_dotenv(BASE_DIR / ".env")
 def get_required_env(var_name: str) -> str:
     value = os.getenv(var_name)
 
-    if value is None:
+    if not value:
         raise ValueError(
             f"Required environment variable '{var_name}' is not set."
         )

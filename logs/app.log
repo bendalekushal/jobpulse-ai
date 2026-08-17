@@ -1,2 +1,2 @@
-2026-08-14 09:12:01,725 | INFO     | __main__ | Line:90 | Response received successfully
-2026-08-14 09:12:01,725 | INFO     | __main__ | Line:110 | API key received by server: True
+2026-08-17 07:45:05,357 | INFO     | __main__ | Line:39 | 403 test passed: authorization error handled correctly.
+2026-08-17 07:58:42,152 | INFO     | __main__ | Line:25 | Application Started
