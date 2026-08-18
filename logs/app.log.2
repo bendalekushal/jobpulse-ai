@@ -1,1 +1,24 @@
-2026-08-17 07:44:53,068 | INFO     | __main__ | Line:25 | Application Started
+2026-08-18 07:17:18,237 | ERROR    | jobpulse.clients.http_client | Line:87 | Invalid JSON response from https://httpbin.io/html
+Traceback (most recent call last):
+  File "C:\Users\toshi\DataEngineer-Bootcamp\projects\jobpulse-ai\.venv\Lib\site-packages\requests\models.py", line 1116, in json
+    return complexjson.loads(self.text, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\toshi\DataEngineer-Bootcamp\Projects\jobpulse-ai\src\jobpulse\clients\http_client.py", line 84, in parse_json
+    return response.json()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\toshi\DataEngineer-Bootcamp\projects\jobpulse-ai\.venv\Lib\site-packages\requests\models.py", line 1120, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)

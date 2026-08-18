@@ -79,6 +79,18 @@ class HTTPClient:
 
         response.raise_for_status()
 
+    def parse_json(self, response, url):
+        try:
+            return response.json()
+
+        except requests.exceptions.JSONDecodeError:
+            logger.error(
+                "Invalid JSON response from %s",
+                url,
+                exc_info=True,
+            )
+            raise
+
     def get(self, url, params=None, headers=None):
         try:
 

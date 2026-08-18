@@ -121,7 +121,29 @@ def main():
     #     "API key received by server: %s",
     #     api_key_received,
     # )
-    
+    response = http_client.get(
+    "https://httpbin.io/json"
+    )
+
+    logger.info(
+        "Response status: %s",
+        response.status_code,
+    )
+
+    logger.info(
+        "Response content type: %s",
+        response.headers.get("Content-Type"),
+    )
+
+    response_body = http_client.parse_json(
+        response,
+        "https://httpbin.io/json",
+    )
+
+    logger.info(
+        "Response body: %s",
+    response_body,
+    )
 
 
     print("=" * 50)

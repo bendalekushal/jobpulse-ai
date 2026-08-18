@@ -15,10 +15,20 @@ class JobAPIClient:
             "limit": limit,
         }
 
-        return self.http_client.get(
+        response = self.http_client.get(
             endpoint,
             params=params,
         )
+
+        data = self.http_client.parse_json(response, endpoint)
+
+        if "jobs" not in data:
+            raise ValueError(
+                "Invalid job API response: missing 'jobs'"
+            )
+        
+        return data
+        
 
     def create_job(self, payload, idempotency_key=None):
         # endpoint = f"{self.base_url}/v1/jobs"
